@@ -53,7 +53,7 @@
             labelName.AutoSize = true;
             labelName.Location = new Point(1032, 69);
             labelName.Name = "labelName";
-            labelName.Size = new Size(62, 25);
+            labelName.Size = new Size(78, 32);
             labelName.TabIndex = 0;
             labelName.Text = "Name";
             // 
@@ -62,7 +62,7 @@
             label2.AutoSize = true;
             label2.Location = new Point(1032, 131);
             label2.Name = "label2";
-            label2.Size = new Size(51, 25);
+            label2.Size = new Size(65, 32);
             label2.TabIndex = 1;
             label2.Text = "Type";
             // 
@@ -71,7 +71,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(1032, 193);
             label3.Name = "label3";
-            label3.Size = new Size(100, 25);
+            label3.Size = new Size(125, 32);
             label3.TabIndex = 2;
             label3.Text = "Weight (g)";
             // 
@@ -80,7 +80,7 @@
             label4.AutoSize = true;
             label4.Location = new Point(1032, 255);
             label4.Name = "label4";
-            label4.Size = new Size(105, 25);
+            label4.Size = new Size(131, 32);
             label4.TabIndex = 3;
             label4.Text = "Kcal (100g)";
             // 
@@ -89,7 +89,7 @@
             label5.AutoSize = true;
             label5.Location = new Point(1032, 317);
             label5.Name = "label5";
-            label5.Size = new Size(112, 25);
+            label5.Size = new Size(139, 32);
             label5.TabIndex = 4;
             label5.Text = "Price (100g)";
             // 
@@ -97,14 +97,14 @@
             // 
             TypeTxt.Location = new Point(1240, 131);
             TypeTxt.Name = "TypeTxt";
-            TypeTxt.Size = new Size(276, 32);
+            TypeTxt.Size = new Size(276, 39);
             TypeTxt.TabIndex = 5;
             // 
             // NameTxt
             // 
             NameTxt.Location = new Point(1240, 69);
             NameTxt.Name = "NameTxt";
-            NameTxt.Size = new Size(276, 32);
+            NameTxt.Size = new Size(276, 39);
             NameTxt.TabIndex = 9;
             // 
             // WeightNum
@@ -113,7 +113,7 @@
             WeightNum.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             WeightNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             WeightNum.Name = "WeightNum";
-            WeightNum.Size = new Size(276, 32);
+            WeightNum.Size = new Size(276, 39);
             WeightNum.TabIndex = 10;
             WeightNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
@@ -122,7 +122,7 @@
             KcalPer100gNum.Location = new Point(1240, 255);
             KcalPer100gNum.Maximum = new decimal(new int[] { 900, 0, 0, 0 });
             KcalPer100gNum.Name = "KcalPer100gNum";
-            KcalPer100gNum.Size = new Size(276, 32);
+            KcalPer100gNum.Size = new Size(276, 39);
             KcalPer100gNum.TabIndex = 11;
             // 
             // PricePer100gNum
@@ -131,7 +131,7 @@
             PricePer100gNum.Location = new Point(1240, 317);
             PricePer100gNum.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             PricePer100gNum.Name = "PricePer100gNum";
-            PricePer100gNum.Size = new Size(276, 32);
+            PricePer100gNum.Size = new Size(276, 39);
             PricePer100gNum.TabIndex = 12;
             // 
             // AddToFridgeBtn
@@ -158,7 +158,7 @@
             SearchTxt.Location = new Point(12, 12);
             SearchTxt.Name = "SearchTxt";
             SearchTxt.PlaceholderText = "Type ingredient name...";
-            SearchTxt.Size = new Size(995, 32);
+            SearchTxt.Size = new Size(995, 39);
             SearchTxt.TabIndex = 15;
             SearchTxt.TextChanged += SearchTxt_TextChanged;
             // 
@@ -174,7 +174,7 @@
             // 
             // IngredientsForm
             // 
-            AutoScaleDimensions = new SizeF(11F, 25F);
+            AutoScaleDimensions = new SizeF(13F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1528, 578);
             Controls.Add(ClearBtn);

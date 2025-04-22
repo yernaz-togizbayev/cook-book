@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Security;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,9 @@ namespace CookBook.UI
 
         private async void AddToFridgeBtn_Click(object sender, EventArgs e)
         {
+            if (!IsValid())
+                return;
+
             Ingredient ingredient = new Ingredient(NameTxt.Text, TypeTxt.Text, WeightNum.Value, KcalPer100gNum.Value, PricePer100gNum.Value);
 
             AddToFridgeBtn.Enabled = false;
@@ -97,6 +101,56 @@ namespace CookBook.UI
             {
                 RefreshGridData();
             }
+        }
+
+        private bool IsValid()
+        {
+            bool isValid = true;
+            string message = "";
+
+            if (string.IsNullOrEmpty(NameTxt.Text))
+            {
+                isValid = false;
+                message += "Please enter a name.\n\n";
+            }
+            else
+            {
+                List<Ingredient> allIngredients = (List<Ingredient>) IngredientsGrid.DataSource;
+                foreach(Ingredient ingredient in allIngredients)
+                {
+                    if (ingredient.Name.ToLower().Trim() == NameTxt.Text.ToLower().Trim())
+                    {
+                        MessageBox.Show("This ingredient already exists.", "Form not valid!");
+                        return false;
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(TypeTxt.Text))
+            {
+                isValid = false;
+                message += "Please enter a type.\n\n";
+            }
+            if (WeightNum.Value <= 0)
+            {
+                isValid = false;
+                message += "Weight must be greater than 0.\n\n";
+            }
+            if (KcalPer100gNum.Value < 0)
+            {
+                isValid = false;
+                message += "Kcal must be greater than or equal to 0.\n\n";
+            }
+            if (PricePer100gNum.Value <= 0)
+            {
+                isValid = false;
+                message += "Price must be greater than 0.\n\n";
+            }
+            if (!isValid)
+            {
+                MessageBox.Show(message, "Form not valid!",MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return isValid;
         }
     }
 }
