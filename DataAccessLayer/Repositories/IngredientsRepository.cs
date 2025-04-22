@@ -14,26 +14,28 @@ namespace DataAccessLayer.Repositories
 {
     public class IngredientsRepository : IIngredientsRepository
     {
-        public void AddIngredient(Ingredient ingredient)
+        public async Task AddIngredient(Ingredient ingredient)
         {
-            string query = "INSERT INTO Ingredients (Name, Type, Weight, KcalPer100g, PricePer100g) VALUES (@Name, @Type, @Weight, @KcalPer100g, @PricePer100g)";
+            string query = @"INSERT INTO Ingredients (Name, Type, Weight, KcalPer100g, PricePer100g) VALUES (@Name, @Type, @Weight, @KcalPer100g, @PricePer100g)";
             using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
             {
                 // Add ingredient to database
-                connection.Execute(query, ingredient);
+                await connection.ExecuteAsync(query, ingredient);
             }
         }
 
-        public List<Ingredient> GetIngredients(string? name = "")
+        public async Task<List<Ingredient>> GetIngredients(string? name = "")
         {
             string query = "select * from Ingredients";
+
             if (!string.IsNullOrEmpty(name)) 
             {
                 query += $" where Name like '{name}%'";
             }
+
             using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
             {
-                return connection.Query<Ingredient>(query).ToList();
+                return (await connection.QueryAsync<Ingredient>(query)).ToList();
             }
         }
     }

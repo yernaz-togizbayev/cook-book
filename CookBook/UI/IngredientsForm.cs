@@ -24,11 +24,13 @@ namespace CookBook.UI
             _ingredientsRepository = ingredientsRepository;
         }
 
-        private void AddToFridgeBtn_Click(object sender, EventArgs e)
+        private async void AddToFridgeBtn_Click(object sender, EventArgs e)
         {
             Ingredient ingredient = new Ingredient(NameTxt.Text, TypeTxt.Text, WeightNum.Value, KcalPer100gNum.Value, PricePer100gNum.Value);
 
-            _ingredientsRepository.AddIngredient(ingredient);
+            AddToFridgeBtn.Enabled = false;
+            await _ingredientsRepository.AddIngredient(ingredient);
+            AddToFridgeBtn.Enabled = true;
             ClearAllFields();
             RefreshGridData();
         }
@@ -48,9 +50,9 @@ namespace CookBook.UI
             RefreshGridData();
             CustomizeGridAppearance();
         }
-        private void RefreshGridData()
+        private async void RefreshGridData()
         {
-            IngredientsGrid.DataSource = _ingredientsRepository.GetIngredients(SearchTxt.Text);
+            IngredientsGrid.DataSource = await _ingredientsRepository.GetIngredients(SearchTxt.Text);
         }
 
         private void CustomizeGridAppearance()
@@ -83,9 +85,18 @@ namespace CookBook.UI
             ClearAllFields();
         }
 
-        private void SearchTxt_TextChanged(object sender, EventArgs e)
+        private async void SearchTxt_TextChanged(object sender, EventArgs e)
         {
-            RefreshGridData();
+            int lengthBeforePause = SearchTxt.Text.Length;
+
+            await Task.Delay(500);
+
+            int lengthAfterPause = SearchTxt.Text.Length;
+
+            if (lengthBeforePause == lengthAfterPause)
+            {
+                RefreshGridData();
+            }
         }
     }
 }
