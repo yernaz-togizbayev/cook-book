@@ -61,27 +61,19 @@ namespace CookBook.UI
 
         private void CustomizeGridAppearance()
         {
-            IngredientsGrid.Columns["Id"].Visible = false;
-            IngredientsGrid.Columns["Name"].HeaderText = "Name";
-            IngredientsGrid.Columns["Type"].HeaderText = "Type";
-            IngredientsGrid.Columns["Weight"].HeaderText = "Weight (g)";
-            IngredientsGrid.Columns["KcalPer100g"].HeaderText = "Kcal(100g)";
-            IngredientsGrid.Columns["PricePer100g"].HeaderText = "Price (100g)";
             IngredientsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             IngredientsGrid.AutoGenerateColumns = false;
 
-
-            //IngredientsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            //IngredientsGrid.AutoGenerateColumns = false;
-            //DataGridViewColumn[] columns = new DataGridViewColumn[6];
-            //columns[0] = new DataGridViewTextBoxColumn() { DataPropertyName = "Id", Visible = false };
-            //columns[1] = new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Name" };
-            //columns[2] = new DataGridViewTextBoxColumn() { DataPropertyName = "Type", HeaderText = "Type" };
-            //columns[3] = new DataGridViewTextBoxColumn() { DataPropertyName = "Weight", HeaderText = "Weight (g)" };
-            //columns[4] = new DataGridViewTextBoxColumn() { DataPropertyName = "KcalPer100g", HeaderText = "Kcal (100g)" };
-            //columns[5] = new DataGridViewTextBoxColumn() { DataPropertyName = "PricePer100g", HeaderText = "Price (100g)" };
-            //IngredientsGrid.Columns.Clear();
-            //IngredientsGrid.Columns.AddRange(columns);
+            DataGridViewColumn[] columns = new DataGridViewColumn[7];
+            columns[0] = new DataGridViewTextBoxColumn() { DataPropertyName = "Id", Visible = false };
+            columns[1] = new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Name" };
+            columns[2] = new DataGridViewTextBoxColumn() { DataPropertyName = "Type", HeaderText = "Type" };
+            columns[3] = new DataGridViewTextBoxColumn() { DataPropertyName = "Weight", HeaderText = "Weight (g)" };
+            columns[4] = new DataGridViewTextBoxColumn() { DataPropertyName = "KcalPer100g", HeaderText = "Kcal (100g)" };
+            columns[5] = new DataGridViewTextBoxColumn() { DataPropertyName = "PricePer100g", HeaderText = "Price (100g)" };
+            columns[6] = new DataGridViewButtonColumn() { Text = "Delete", Name = "DeleteBtn", UseColumnTextForButtonValue = true, HeaderText = "" };
+            IngredientsGrid.Columns.Clear();
+            IngredientsGrid.Columns.AddRange(columns);
         }
 
         private void ClearBtn_Click(object sender, EventArgs e)
@@ -115,8 +107,8 @@ namespace CookBook.UI
             }
             else
             {
-                List<Ingredient> allIngredients = (List<Ingredient>) IngredientsGrid.DataSource;
-                foreach(Ingredient ingredient in allIngredients)
+                List<Ingredient> allIngredients = (List<Ingredient>)IngredientsGrid.DataSource;
+                foreach (Ingredient ingredient in allIngredients)
                 {
                     if (ingredient.Name.ToLower().Trim() == NameTxt.Text.ToLower().Trim())
                     {
@@ -147,10 +139,24 @@ namespace CookBook.UI
             }
             if (!isValid)
             {
-                MessageBox.Show(message, "Form not valid!",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(message, "Form not valid!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return isValid;
+        }
+
+        private async void IngredientsGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && IngredientsGrid.CurrentCell is DataGridViewButtonCell)
+            {
+                Ingredient clickedIngredient = (Ingredient)IngredientsGrid.Rows[e.RowIndex].DataBoundItem;
+                var result = MessageBox.Show("Are you sure you want to delete this ingredient?", "Delete Ingredient", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    await _ingredientsRepository.DeleteIngredient(clickedIngredient);
+                    RefreshGridData();
+                }
+            }
         }
     }
 }

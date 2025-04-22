@@ -38,5 +38,16 @@ namespace DataAccessLayer.Repositories
                 return (await connection.QueryAsync<Ingredient>(query)).ToList();
             }
         }
+
+
+        public async Task DeleteIngredient(Ingredient ingredient)
+        {
+            string query = @$"DELETE FROM Ingredients where Id = @Id";
+            using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+            {
+                // Add ingredient to database
+                await connection.ExecuteAsync(query, ingredient);
+            }
+        }
     }
 }
