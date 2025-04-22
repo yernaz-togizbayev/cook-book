@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Security;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,20 +78,14 @@ namespace CookBook.UI
             //IngredientsGrid.Columns.AddRange(columns);
         }
 
-        private void SearchBtn_Click(object sender, EventArgs e)
-        {
-            RefreshGridData();
-        }
-
         private void ClearBtn_Click(object sender, EventArgs e)
         {
             ClearAllFields();
-            RefreshGridData();
         }
 
         private void SearchTxt_TextChanged(object sender, EventArgs e)
         {
-
+            RefreshGridData();
         }
     }
 }

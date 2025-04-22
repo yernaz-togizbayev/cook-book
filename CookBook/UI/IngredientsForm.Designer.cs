@@ -41,7 +41,6 @@
             AddToFridgeBtn = new Button();
             IngredientsGrid = new DataGridView();
             SearchTxt = new TextBox();
-            SearchBtn = new Button();
             ClearBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)WeightNum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)KcalPer100gNum).BeginInit();
@@ -159,19 +158,9 @@
             SearchTxt.Location = new Point(12, 12);
             SearchTxt.Name = "SearchTxt";
             SearchTxt.PlaceholderText = "Type ingredient name...";
-            SearchTxt.Size = new Size(778, 32);
+            SearchTxt.Size = new Size(995, 32);
             SearchTxt.TabIndex = 15;
             SearchTxt.TextChanged += SearchTxt_TextChanged;
-            // 
-            // SearchBtn
-            // 
-            SearchBtn.Location = new Point(808, 11);
-            SearchBtn.Name = "SearchBtn";
-            SearchBtn.Size = new Size(199, 40);
-            SearchBtn.TabIndex = 16;
-            SearchBtn.Text = "Search";
-            SearchBtn.UseVisualStyleBackColor = true;
-            SearchBtn.Click += SearchBtn_Click;
             // 
             // ClearBtn
             // 
@@ -189,7 +178,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1528, 578);
             Controls.Add(ClearBtn);
-            Controls.Add(SearchBtn);
             Controls.Add(SearchTxt);
             Controls.Add(IngredientsGrid);
             Controls.Add(AddToFridgeBtn);
@@ -231,7 +219,6 @@
         private Button AddToFridgeBtn;
         private DataGridView IngredientsGrid;
         private TextBox SearchTxt;
-        private Button SearchBtn;
         private Button ClearBtn;
     }
 }
