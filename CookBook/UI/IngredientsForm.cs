@@ -64,7 +64,7 @@ namespace CookBook.UI
             IngredientsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             IngredientsGrid.AutoGenerateColumns = false;
 
-            DataGridViewColumn[] columns = new DataGridViewColumn[7];
+            DataGridViewColumn[] columns = new DataGridViewColumn[8];
             columns[0] = new DataGridViewTextBoxColumn() { DataPropertyName = "Id", Visible = false };
             columns[1] = new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Name" };
             columns[2] = new DataGridViewTextBoxColumn() { DataPropertyName = "Type", HeaderText = "Type" };
@@ -72,6 +72,8 @@ namespace CookBook.UI
             columns[4] = new DataGridViewTextBoxColumn() { DataPropertyName = "KcalPer100g", HeaderText = "Kcal (100g)" };
             columns[5] = new DataGridViewTextBoxColumn() { DataPropertyName = "PricePer100g", HeaderText = "Price (100g)" };
             columns[6] = new DataGridViewButtonColumn() { Text = "Delete", Name = "DeleteBtn", UseColumnTextForButtonValue = true, HeaderText = "" };
+            columns[7] = new DataGridViewButtonColumn() { Text = "Edit", Name = "EditBtn", UseColumnTextForButtonValue = true, HeaderText = "" };
+
             IngredientsGrid.Columns.Clear();
             IngredientsGrid.Columns.AddRange(columns);
         }
