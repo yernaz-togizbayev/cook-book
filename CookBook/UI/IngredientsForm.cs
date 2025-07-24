@@ -47,7 +47,10 @@ namespace CookBook.UI
             WeightNum.Value = 1;
             KcalPer100gNum.Value = 0;
             PricePer100gNum.Value = 0;
-            SearchTxt.Text = string.Empty;
+            //SearchTxt.Text = string.Empty;
+
+            AddToFridgeBtn.Visible = true;
+            EditIngredientBtn.Visible = false;
         }
 
         private void IngredientsForm_Load(object sender, EventArgs e)
@@ -85,6 +88,10 @@ namespace CookBook.UI
         private void ClearBtn_Click(object sender, EventArgs e)
         {
             ClearAllFields();
+
+            AddToFridgeBtn.Visible = true;
+            EditIngredientBtn.Visible = false;
+            _ingredientIdToEdit = 0; // Reset the ID when clearing
         }
 
         private async void SearchTxt_TextChanged(object sender, EventArgs e)
@@ -163,6 +170,7 @@ namespace CookBook.UI
                     if (result == DialogResult.Yes)
                     {
                         await _ingredientsRepository.DeleteIngredient(clickedIngredient);
+                        ClearAllFields();
                         RefreshGridData();
                     }
                 }
