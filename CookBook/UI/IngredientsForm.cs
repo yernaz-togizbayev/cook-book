@@ -19,6 +19,7 @@ namespace CookBook.UI
     public partial class IngredientsForm : Form
     {
         readonly IIngredientsRepository _ingredientsRepository;
+        private int _ingredientIdToEdit;
         public IngredientsForm(IIngredientsRepository ingredientsRepository)
         {
             InitializeComponent();
@@ -53,6 +54,9 @@ namespace CookBook.UI
         {
             RefreshGridData();
             CustomizeGridAppearance();
+
+            AddToFridgeBtn.Visible = true;
+            EditIngredientBtn.Visible = false;
         }
         private async void RefreshGridData()
         {
@@ -152,13 +156,51 @@ namespace CookBook.UI
             if (e.RowIndex >= 0 && IngredientsGrid.CurrentCell is DataGridViewButtonCell)
             {
                 Ingredient clickedIngredient = (Ingredient)IngredientsGrid.Rows[e.RowIndex].DataBoundItem;
-                var result = MessageBox.Show("Are you sure you want to delete this ingredient?", "Delete Ingredient", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result == DialogResult.Yes)
+
+                if (IngredientsGrid.CurrentCell.OwningColumn.Name == "DeleteBtn")
                 {
-                    await _ingredientsRepository.DeleteIngredient(clickedIngredient);
-                    RefreshGridData();
+                    var result = MessageBox.Show("Are you sure you want to delete this ingredient?", "Delete Ingredient", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        await _ingredientsRepository.DeleteIngredient(clickedIngredient);
+                        RefreshGridData();
+                    }
+                }
+                else if (IngredientsGrid.CurrentCell.OwningColumn.Name == "EditBtn")
+                {
+                    FillFormForEdit(clickedIngredient);
                 }
             }
+        }
+
+        private void FillFormForEdit(Ingredient clickedIngredient)
+        {
+            _ingredientIdToEdit = clickedIngredient.Id;
+
+            NameTxt.Text = clickedIngredient.Name;
+            TypeTxt.Text = clickedIngredient.Type;
+            WeightNum.Value = clickedIngredient.Weight;
+            KcalPer100gNum.Value = clickedIngredient.KcalPer100g;
+            PricePer100gNum.Value = clickedIngredient.PricePer100g;
+
+            AddToFridgeBtn.Visible = false;
+            EditIngredientBtn.Visible = true;
+        }
+
+        private async void EditIngredientBtn_Click(object sender, EventArgs e)
+        {
+            if (!IsValid())
+                return;
+
+            Ingredient ingredient = new Ingredient(NameTxt.Text, TypeTxt.Text, WeightNum.Value, KcalPer100gNum.Value, PricePer100gNum.Value, _ingredientIdToEdit);
+
+            await _ingredientsRepository.EditIngredient(ingredient);
+            ClearAllFields();
+            RefreshGridData();
+
+            AddToFridgeBtn.Visible = true;
+            EditIngredientBtn.Visible = false;
+            _ingredientIdToEdit = 0; // Reset the ID after editing
         }
     }
 }

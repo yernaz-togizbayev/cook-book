@@ -53,7 +53,8 @@ namespace DataAccessLayer.Repositories
         public async Task EditIngredient(Ingredient ingredient)
         {
             string query = @$"UPDATE Ingredients
-                                           SET Name = {ingredient.Name}, Type = {ingredient.Type}, Weight = {ingredient.Weight}, KcalPer100g = {ingredient.KcalPer100g}, PricePer100g = {ingredient.PricePer100g} WHERE Id = {ingredient.Id}";
+                                           SET Name = @Name, Type = @Type, Weight = @Weight, KcalPer100g = @KcalPer100g, PricePer100g = @PricePer100g
+                                           WHERE Id = @Id";
             using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
             {
                 // Add ingredient to database
