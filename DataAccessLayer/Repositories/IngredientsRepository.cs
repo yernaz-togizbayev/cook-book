@@ -17,10 +17,35 @@ namespace DataAccessLayer.Repositories
         public async Task AddIngredient(Ingredient ingredient)
         {
             string query = @"INSERT INTO Ingredients (Name, Type, Weight, KcalPer100g, PricePer100g) VALUES (@Name, @Type, @Weight, @KcalPer100g, @PricePer100g)";
-            using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+
+            try
             {
-                // Add ingredient to database
-                await connection.ExecuteAsync(query, ingredient);
+                using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+                {
+                    // Add ingredient to database
+                    await connection.ExecuteAsync(query, ingredient);
+                }
+            }
+            catch (SqlException ex)
+            {
+                string errorMessage = "";
+                if (ex.Number == 2627) // Unique constraint error number
+                {
+                    errorMessage = $"An ingredient '{ingredient.Name}' already exists.";
+                }
+                else
+                {
+                    errorMessage = "An error occurred in the database.";
+                }
+
+                Logger.LogError(errorMessage, DateTime.Now);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = "An error happend while adding ingredient";
+                // TODO: Show error message to the user
+                Logger.LogError(errorMessage, DateTime.Now);
+
             }
         }
 
@@ -55,10 +80,32 @@ namespace DataAccessLayer.Repositories
             string query = @$"UPDATE Ingredients
                                            SET Name = @Name, Type = @Type, Weight = @Weight, KcalPer100g = @KcalPer100g, PricePer100g = @PricePer100g
                                            WHERE Id = @Id";
-            using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+
+            try
             {
-                // Add ingredient to database
-                await connection.ExecuteAsync(query, ingredient);
+                using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+                {
+                    // Add ingredient to database
+                    await connection.ExecuteAsync(query, ingredient);
+                }
+            }
+            catch (SqlException ex)
+            {
+                string errorMessage = "";
+                if (ex.Number == 2627) // Unique constraint error number
+                {
+                    errorMessage = $"An ingredient with this name already exists, that's why edit to '{ingredient.Name}' is not possible.";
+                }
+                else
+                {
+                    errorMessage = "An error occurred in the database.";
+                }
+                Logger.LogError(errorMessage, DateTime.Now);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = "An error happend while editing ingredient";
+                Logger.LogError(errorMessage, DateTime.Now);
             }
         }
     }

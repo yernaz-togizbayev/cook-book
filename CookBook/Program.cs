@@ -15,6 +15,7 @@ namespace CookBook
         static void Main()
         {
             ApplicationConfiguration.Initialize();
+            Logger.Initialize(); // Initialize the logger
 
             ServiceCollection services = ConfigureServices();
             ServiceProvider serviceProvider = services.BuildServiceProvider();

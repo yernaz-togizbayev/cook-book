@@ -118,38 +118,31 @@ namespace CookBook.UI
                 isValid = false;
                 message += "Please enter a name.\n\n";
             }
-            else
-            {
-                List<Ingredient> allIngredients = (List<Ingredient>)IngredientsGrid.DataSource;
-                foreach (Ingredient ingredient in allIngredients)
-                {
-                    if (ingredient.Name.ToLower().Trim() == NameTxt.Text.ToLower().Trim())
-                    {
-                        MessageBox.Show("This ingredient already exists.", "Form not valid!");
-                        return false;
-                    }
-                }
-            }
+
             if (string.IsNullOrEmpty(TypeTxt.Text))
             {
                 isValid = false;
                 message += "Please enter a type.\n\n";
             }
+
             if (WeightNum.Value <= 0)
             {
                 isValid = false;
                 message += "Weight must be greater than 0.\n\n";
             }
+
             if (KcalPer100gNum.Value < 0)
             {
                 isValid = false;
                 message += "Kcal must be greater than or equal to 0.\n\n";
             }
+
             if (PricePer100gNum.Value <= 0)
             {
                 isValid = false;
                 message += "Price must be greater than 0.\n\n";
             }
+
             if (!isValid)
             {
                 MessageBox.Show(message, "Form not valid!", MessageBoxButtons.OK, MessageBoxIcon.Error);
